@@ -1,0 +1,66 @@
+﻿<div class="container" ng-app="fileUploaderApp" ng-controller="fileUploaderController as mainCtrl">
+	
+		<div class="file-field input-field">
+			<div class="btn">
+				<span>File</span>
+				<input type="file" file-read file-name="mainCtrl.fileName" text-file-load="mainCtrl.fileOnLoad(file, fileName)" accept=".csv"  />
+			</div>
+			<div class="file-path-wrapper">
+				<input class="file-path validate" type="text">
+			</div>
+		</div>
+
+	<div ng-show="mainCtrl.alertShow" >
+	<hr />
+		<div class="alert alert-danger h2" role="alert">
+			<strong>{{mainCtrl.validationMessage}}</strong>
+		</div>
+	</div>
+	<hr/>
+	<div class="progress" ng-show="mainCtrl.currentProgress > 0">
+		<div progress-bar total="mainCtrl.totalProgress" current="mainCtrl.currentProgress" finish="mainCtrl.finishUpload()" class="determinate"></div>
+	</div>
+	<table class="table table-striped">
+		<tr >
+		<th class="centerContent h3">Original</th>
+		<th class="centerContent h3">Accessible</th>
+		<th class="centerContent h3">Success</th>
+		<th class="centerContent h3">Upload</th>
+		<tr>
+		<tr ng-repeat="originalColumn in mainCtrl.documentOriginalColumns ">
+			
+			<td class="centerContent h4">{{originalColumn.originalName}}</td>
+			<td class="centerContent h4">
+				<select class="form-control h4"  ng-model="originalColumn.newName" ng-change="mainCtrl.onSelect($index)">
+					<option ng-repeat="option in mainCtrl.accessibleColumns" ng-value="option.name">{{option.name}}</option>
+				</select>
+			</td>
+
+			<td class="centerContent">
+				<div ng-switch="originalColumn.success">
+					<div ng-switch-when="false" class="h4">&#10071;</div>
+					<div ng-switch-when="true" class="h4">&#10004;</div>
+				</div>
+			</td>
+			<td class="centerContent">
+				<div ng-switch="originalColumn.upload">
+					<div ng-switch-when="false" class="h4">No upload</div>
+					<div ng-switch-when="true" class="h4">Upload</div>
+				</div>
+			</td>
+		</tr>
+	</table>
+
+	<div ng-show="mainCtrl.uploadShow" >
+	<hr/>
+		<a ng-click="mainCtrl.onUpload()" class="waves-effect waves-light btn">Upload</a>
+	</div>
+
+	
+	
+</div>
+<script src="~/Scripts/app/app.js"></script>
+<script src="~/Scripts/app/services/modelService.js"></script>
+<script src="~/Scripts/app/directives/fileRead.js"></script>
+<script src="~/Scripts/app/directives/progressBar.js"></script>
+<script src="~/Scripts/app/controllesrs/fileUploaderController.js"></script>
