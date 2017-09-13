@@ -71,7 +71,7 @@ namespace FileUploader.Services
 			using (var connection = new SqlConnection(_connectionString))
 			{
 				connection.Open();
-				using(var command = new SqlCommand($"DROP TABLE {tableName}", connection))
+				var command = new SqlCommand($"DROP TABLE {tableName}", connection);
 					command.ExecuteNonQuery();
 			}
 		}
